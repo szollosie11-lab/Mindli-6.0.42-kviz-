@@ -1,0 +1,33 @@
+/* MINDli 6.0.31 — shared hosted mini-app visual layer */
+html.mindli-hosted, html.mindli-hosted body{background:var(--mindli-bg,#f3f6fb)!important;color:var(--mindli-text,#152238)!important}
+html.mindli-hosted{--mindli-primary:#2f6fda;--mindli-primary2:#245ebd;--mindli-bg:#f3f6fb;--mindli-card:#ffffff;--mindli-panel:#ffffff;--mindli-text:#172238;--mindli-muted:#6c7788;--mindli-line:#d9e1eb;--mindli-soft:#edf4ff;--mindli-ok:#177d63;--mindli-bad:#b63142}
+html.mindli-hosted[data-mindli-theme="dark"]{--mindli-bg:#08111f;--mindli-card:#101d2e;--mindli-panel:#101d2e;--mindli-text:#f4f7fb;--mindli-muted:#9aa9bc;--mindli-line:#2c3d55;--mindli-soft:#172a43;--mindli-primary:#6da0f3;--mindli-primary2:#8bb4f5;--mindli-ok:#55c9a6;--mindli-bad:#ff8290}
+html.mindli-hosted[data-mindli-palette="midnight"]{--mindli-bg:#050a13;--mindli-card:#0b1422;--mindli-panel:#0b1422;--mindli-line:#26364e}
+html.mindli-hosted[data-mindli-palette="forest"]{--mindli-bg:#eaf4ed;--mindli-card:#f8fcf9;--mindli-panel:#f8fcf9;--mindli-primary:#27755d;--mindli-primary2:#1e604c;--mindli-line:#c8ded2;--mindli-soft:#dceddf}
+html.mindli-hosted[data-mindli-palette="ocean"]{--mindli-bg:#082437;--mindli-card:#0c3048;--mindli-panel:#0c3048;--mindli-primary:#53a9cf;--mindli-primary2:#8bcce7;--mindli-line:#28566c;--mindli-soft:#103b54;--mindli-text:#f3fbff;--mindli-muted:#a5c4d4}
+html.mindli-hosted[data-mindli-palette="sunset"]{--mindli-bg:#3a1c29;--mindli-card:#4b2636;--mindli-panel:#4b2636;--mindli-primary:#ed9357;--mindli-primary2:#ffbc88;--mindli-line:#714255;--mindli-soft:#5b3041;--mindli-text:#fff8f3;--mindli-muted:#e1bbc5}
+html.mindli-hosted body,html.mindli-hosted .screen{background:var(--mindli-bg)!important;color:var(--mindli-text)!important}
+html.mindli-hosted .card,html.mindli-hosted .panel,html.mindli-hosted .hero,html.mindli-hosted .stats,html.mindli-hosted .settingsCard,html.mindli-hosted .help,html.mindli-hosted .menu-btn,html.mindli-hosted .btn.secondary,html.mindli-hosted .mode,html.mindli-hosted .level{background:var(--mindli-card)!important;border-color:var(--mindli-line)!important;color:var(--mindli-text)!important;box-shadow:0 8px 24px rgba(20,45,80,.08)!important}
+html.mindli-hosted .btn.primary,html.mindli-hosted .primary{background:linear-gradient(135deg,var(--mindli-primary),var(--mindli-primary2))!important;color:white!important;border-color:transparent!important}
+html.mindli-hosted .muted,html.mindli-hosted .tiny,html.mindli-hosted small,html.mindli-hosted p,html.mindli-hosted .subtitle{color:var(--mindli-muted)!important}
+html.mindli-hosted button,html.mindli-hosted select,html.mindli-hosted input{font-family:inherit}
+html.mindli-hosted.mindli-large-text{font-size:112%}
+html.mindli-hosted.mindli-large-text h1{font-size:clamp(1.8rem,6vw,2.45rem)!important}
+html.mindli-hosted.mindli-large-buttons button,html.mindli-hosted.mindli-large-buttons .btn,html.mindli-hosted.mindli-large-buttons .choice{min-height:56px!important;padding-top:12px!important;padding-bottom:12px!important}
+html.mindli-hosted.mindli-colorblind .correct,html.mindli-hosted.mindli-colorblind .ok{outline:3px solid #1677d2!important;box-shadow:inset 0 0 0 2px white!important}
+html.mindli-hosted.mindli-colorblind .wrong,html.mindli-hosted.mindli-colorblind .bad{outline:3px dashed #b36b00!important;box-shadow:inset 0 0 0 2px white!important}
+html.mindli-hosted [data-mindli-global-setting],html.mindli-hosted .mindli-global-setting{display:none!important}
+html.mindli-hosted .mindli-host-note{display:block;margin:10px auto 18px;padding:10px 14px;max-width:560px;border:1px solid var(--mindli-line);border-radius:14px;background:var(--mindli-soft);color:var(--mindli-muted);font-size:12px;line-height:1.4;text-align:center}
+
+/* 6.0.36 final shared mini-app polish */
+html.mindli-hosted body{max-width:760px;margin:0 auto!important;background:var(--mindli-bg)!important}
+html.mindli-hosted .screen{padding-left:clamp(12px,3.2vw,22px)!important;padding-right:clamp(12px,3.2vw,22px)!important}
+html.mindli-hosted .card,html.mindli-hosted .panel,html.mindli-hosted .menu-btn,html.mindli-hosted .mode,html.mindli-hosted .level{border-radius:20px!important}
+html.mindli-hosted button{min-height:46px;touch-action:manipulation}
+html.mindli-hosted button:focus-visible,html.mindli-hosted a:focus-visible{outline:3px solid color-mix(in srgb,var(--mindli-primary) 55%,transparent)!important;outline-offset:3px!important}
+html.mindli-hosted.mindli-large-text{font-size:118%!important}
+html.mindli-hosted.mindli-large-buttons button,html.mindli-hosted.mindli-large-buttons .btn,html.mindli-hosted.mindli-large-buttons .choice{min-height:58px!important}
+html.mindli-hosted.mindli-colorblind .correct,html.mindli-hosted.mindli-colorblind .ok{border-style:solid!important;border-width:3px!important}
+html.mindli-hosted.mindli-colorblind .wrong,html.mindli-hosted.mindli-colorblind .bad{border-style:dashed!important;border-width:3px!important}
+html.mindli-hosted.mindli-no-motion *,html.mindli-hosted.mindli-no-motion *::before,html.mindli-hosted.mindli-no-motion *::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+html.mindli-hosted .mindli-host-note{display:none!important}

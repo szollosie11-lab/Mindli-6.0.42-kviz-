@@ -1,0 +1,23 @@
+{
+  "name": "Mindli",
+  "short_name": "Mindli",
+  "id": "./",
+  "description": "Vedomostná a logická kvízová hra v štyroch jazykoch.",
+  "lang": "sk",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#111827",
+  "theme_color": "#174d92",
+  "categories": ["games", "education"],
+  "icons": [
+    {"src":"icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ],
+  "shortcuts": [
+    {"name":"Nová hra","short_name":"Hrať","url":"./index.html#play","icons":[{"src":"icons/icon-192.png","sizes":"192x192"}]},
+    {"name":"Učiť sa","short_name":"Učenie","url":"./index.html#learn","icons":[{"src":"icons/icon-192.png","sizes":"192x192"}]}
+  ]
+}
