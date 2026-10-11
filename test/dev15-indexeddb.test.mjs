@@ -30,3 +30,27 @@ test('DEV15 IndexedDB failed transaction never changes the active version pointe
   await assert.rejects(store.commit({...meta,bankVersion:newVersion,releaseVersion:3},broken));
   assert.equal((await store.getActive()).bankVersion,version);
 });
+
+test('DEV15 independent WebViews cannot downgrade an already activated release',async()=>{
+  const name='mindli-dev15-shared-'+Date.now()+'-'+Math.random();
+  const older=api.createIndexedDbStore({name,indexedDBImpl:indexedDB});
+  const newer=api.createIndexedDbStore({name,indexedDBImpl:indexedDB});
+  const v2={protocolVersion:1,bankVersion:version,releaseVersion:2,questionCount:1,languages:langs};
+  const v3={...v2,bankVersion:'sha256:'+'b'.repeat(64),releaseVersion:3};
+  const rows=Object.fromEntries(langs.map(lang=>[lang,[sample(lang)]]));
+  await newer.commit(v3,rows);
+  await assert.rejects(older.commit(v2,rows),/RACING_RELEASE/);
+  assert.equal((await older.getActive()).bankVersion,v3.bankVersion);
+  assert.equal((await older.load(v3.bankVersion,'ja'))[0].id,'stable01');
+});
+test('DEV15 racing same-database writers always finish with highest release',async()=>{
+  const name='mindli-dev15-race-'+Date.now()+'-'+Math.random();
+  const first=api.createIndexedDbStore({name,indexedDBImpl:indexedDB});
+  const second=api.createIndexedDbStore({name,indexedDBImpl:indexedDB});
+  const v2={protocolVersion:1,bankVersion:version,releaseVersion:2,questionCount:1,languages:langs};
+  const v3={...v2,bankVersion:'sha256:'+'b'.repeat(64),releaseVersion:3};
+  const rows=Object.fromEntries(langs.map(lang=>[lang,[sample(lang)]]));
+  const results=await Promise.allSettled([first.commit(v2,rows),second.commit(v3,rows)]);
+  assert.equal(results[1].status,'fulfilled');
+  assert.equal((await first.getActive()).bankVersion,v3.bankVersion);
+});
