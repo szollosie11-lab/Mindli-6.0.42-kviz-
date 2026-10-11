@@ -74,13 +74,28 @@
       const connection=await db();
       return new Promise((resolve,reject)=>{
         const tx=connection.transaction(['meta','banks'],'readwrite');
+        let conflict=null;
         tx.oncomplete=()=>resolve();
         tx.onerror=()=>reject(tx.error||new Error('IDB_COMMIT'));
-        tx.onabort=()=>reject(tx.error||new Error('IDB_ABORT'));
-        const store=tx.objectStore('banks');
-        for(const lang of LANGS)store.put(banks[lang],manifest.bankVersion+':'+lang);
-        // The pointer and ten banks commit in the same IndexedDB transaction.
-        tx.objectStore('meta').put(manifest,'active');
+        tx.onabort=()=>reject(conflict||tx.error||new Error('IDB_ABORT'));
+        const meta=tx.objectStore('meta');
+        // Check the pointer *inside* this read/write transaction. Separate
+        // WebViews sharing one IndexedDB cannot overwrite a newer release.
+        const current=meta.get('active');
+        current.onsuccess=()=>{
+          const previous=current.result;
+          if(previous&&previous.releaseVersion>=manifest.releaseVersion){
+            if(previous.releaseVersion===manifest.releaseVersion&&
+               previous.bankVersion===manifest.bankVersion)return;
+            conflict=new Error('MINDLI_CENTRAL_RACING_RELEASE');
+            tx.abort();return;
+          }
+          const store=tx.objectStore('banks');
+          for(const lang of LANGS)store.put(banks[lang],manifest.bankVersion+':'+lang);
+          // The pointer and ten banks commit in the same IndexedDB transaction.
+          meta.put(manifest,'active');
+        };
+        current.onerror=()=>tx.abort();
       });
     }
     return {getActive:()=>read('meta','active'),
@@ -151,7 +166,8 @@
         return {updated:true,source:'remote',version:start.bankVersion,
           questionCount:start.questionCount,languages:[...LANGS]};
       }catch(error){
-        if(old)return {updated:false,source:'cache',version:old.bankVersion,error:String(error.message||error)};
+        const recovered=await store.getActive().catch(()=>old);
+        if(recovered)return {updated:false,source:'cache',version:recovered.bankVersion,error:String(error.message||error)};
         throw error;
       }
     }
