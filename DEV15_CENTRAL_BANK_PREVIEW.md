@@ -43,3 +43,23 @@ remain mandatory pre-release checks.
 - No automatic background syncing while a quiz is running.
 - No HU/TR language invented; bank release currently supplies JA as its tenth language.
 - This is a preview transport/cache implementation, not yet a playable central-bank release.
+
+## Parallel WebView safety and release gate
+
+An IndexedDB `readwrite` transaction checks the currently active
+`releaseVersion` **before** writing the ten banks and changing the active
+pointer. If another WebView has already published a newer release, the
+older publication aborts with `MINDLI_CENTRAL_RACING_RELEASE` instead of
+silently replacing it. The caller recovers the current complete version.
+These operations preserve the ten-language atomic visibility guarantee.
+
+CI emulator regression tests now cover **9/9** cases, including two
+independent database connections and racing publishers. This is not a
+substitute for physical iOS/Android storage tests or a verified migration
+between the remote `category`, `difficultyLevel` format and the
+gameplay-specific `QuizCore` schema.
+
+**Release blocker:** the current published Android source has not been
+matched to this repository. Do not build or distribute a new Android
+version from the older 6.0.42 web source without first recovering and
+verifying the currently released Android project.
